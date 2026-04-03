@@ -41,9 +41,20 @@
       "target": "api::category.category",
       "inversedBy": "articles"
     },
+    "locale_sites": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::locale-site.locale-site",
+      "inversedBy": "articles"
+    },
     "blocks": {
       "type": "dynamiczone",
-      "components": ["shared.media", "shared.quote", "shared.rich-text", "shared.slider"]
+      "components": [
+        "shared.media",
+        "shared.quote",
+        "shared.rich-text",
+        "shared.slider"
+      ]
     }
   }
 }

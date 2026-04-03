@@ -1,0 +1,114 @@
+{
+  "kind": "collectionType",
+  "collectionName": "locale_sites",
+  "info": {
+    "singularName": "locale-site",
+    "pluralName": "locale-sites",
+    "displayName": "Locale Site - Slug Registry",
+    "description": "The master table that defines every available slug for locale-specific sites"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "slug": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "language": {
+      "type": "enumeration",
+      "enum": [
+        "en",
+        "es",
+        "fr",
+        "de",
+        "it",
+        "pt",
+        "ru",
+        "zh",
+        "ja",
+        "ko",
+        "ar",
+        "hi",
+        "bn"
+      ],
+      "required": true
+    },
+    "country": {
+      "type": "enumeration",
+      "enum": [
+        "US",
+        "GB",
+        "IN",
+        "CA",
+        "AU",
+        "DE",
+        "FR",
+        "ES",
+        "IT",
+        "PT",
+        "RU",
+        "CN",
+        "JP",
+        "KR",
+        "SA"
+      ],
+      "required": true
+    },
+    "label": {
+      "type": "string",
+      "required": true
+    },
+    "icon": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": ["images"]
+    },
+    "is_default": {
+      "type": "boolean",
+      "default": false,
+      "required": true
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true,
+      "required": true
+    },
+    "site_domain": {
+      "type": "string"
+    },
+    "nav_logo": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": ["images"]
+    },
+    "articles": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::article.article",
+      "mappedBy": "locale_sites"
+    },
+    "articles_test": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::articletest.articletest",
+      "mappedBy": "locale_sites"
+    },
+    "categories_test": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::categorytest.categorytest",
+      "mappedBy": "locale_site"
+    },
+    "site_config_test": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::siteconfigtest.siteconfigtest",
+      "mappedBy": "locale_site"
+    }
+  }
+}

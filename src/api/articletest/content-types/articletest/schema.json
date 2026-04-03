@@ -1,0 +1,87 @@
+{
+  "kind": "collectionType",
+  "collectionName": "articletests",
+  "info": {
+    "singularName": "articletest",
+    "pluralName": "articletests",
+    "displayName": "Article Test",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "title",
+      "required": true
+    },
+    "excerpt": {
+      "type": "text"
+    },
+    "body": {
+      "type": "richtext"
+    },
+    "cover_image": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": ["images", "files", "videos", "audios"]
+    },
+    "status": {
+      "type": "enumeration",
+      "enum": ["draft", "review", "published"],
+      "default": "draft"
+    },
+    "is_featured": {
+      "type": "boolean",
+      "default": false
+    },
+    "is_breaking": {
+      "type": "boolean",
+      "default": false
+    },
+    "source_url": {
+      "type": "string"
+    },
+    "read_time": {
+      "type": "integer"
+    },
+    "view_count": {
+      "type": "integer",
+      "default": 0
+    },
+    "locale_sites": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::locale-site.locale-site",
+      "inversedBy": "articles_test"
+    },
+    "category": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::categorytest.categorytest",
+      "inversedBy": "articles_test"
+    },
+    "tags": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::tagtest.tagtest",
+      "inversedBy": "articles_test"
+    },
+    "seo_title": {
+      "type": "string"
+    },
+    "seo_description": {
+      "type": "text"
+    },
+    "seo_image": {
+      "type": "media",
+      "multiple": false
+    }
+  }
+}

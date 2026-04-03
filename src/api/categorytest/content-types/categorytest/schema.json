@@ -1,0 +1,49 @@
+{
+  "kind": "collectionType",
+  "collectionName": "categorytests",
+  "info": {
+    "singularName": "categorytest",
+    "pluralName": "categorytests",
+    "displayName": "Category Test",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "name",
+      "required": true
+    },
+    "description": {
+      "type": "text"
+    },
+    "order": {
+      "type": "integer",
+      "default": 0
+    },
+    "icon": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": ["images"]
+    },
+    "locale_site": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::locale-site.locale-site",
+      "inversedBy": "categories_test"
+    },
+    "articles_test": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::articletest.articletest",
+      "mappedBy": "category"
+    }
+  }
+}

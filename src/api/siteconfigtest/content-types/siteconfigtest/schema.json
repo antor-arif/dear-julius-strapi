@@ -1,0 +1,37 @@
+{
+  "kind": "collectionType",
+  "collectionName": "siteconfigtests",
+  "info": {
+    "singularName": "siteconfigtest",
+    "pluralName": "siteconfigtests",
+    "displayName": "Site Config Test",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "nav_links": {
+      "type": "json"
+    },
+    "footer_links": {
+      "type": "json"
+    },
+    "primary_color": {
+      "type": "string"
+    },
+    "meta_title": {
+      "type": "string"
+    },
+    "meta_description": {
+      "type": "text"
+    },
+    "locale_site": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::locale-site.locale-site",
+      "inversedBy": "site_config_test"
+    }
+  }
+}

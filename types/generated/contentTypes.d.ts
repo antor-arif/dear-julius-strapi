@@ -485,6 +485,10 @@ export interface ApiArticleArticle extends Struct.CollectionTypeSchema {
         maxLength: 80;
       }>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
+    locale_sites: Schema.Attribute.Relation<
+      'manyToMany',
+      'api::locale-site.locale-site'
+    >;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
       'api::article.article'
@@ -496,6 +500,60 @@ export interface ApiArticleArticle extends Struct.CollectionTypeSchema {
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+  };
+}
+
+export interface ApiArticletestArticletest extends Struct.CollectionTypeSchema {
+  collectionName: 'articletests';
+  info: {
+    description: '';
+    displayName: 'Article Test';
+    pluralName: 'articletests';
+    singularName: 'articletest';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    body: Schema.Attribute.RichText;
+    category: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::categorytest.categorytest'
+    >;
+    cover_image: Schema.Attribute.Media<
+      'images' | 'files' | 'videos' | 'audios'
+    >;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    excerpt: Schema.Attribute.Text;
+    is_breaking: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    is_featured: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    locale_sites: Schema.Attribute.Relation<
+      'manyToMany',
+      'api::locale-site.locale-site'
+    >;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::articletest.articletest'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    read_time: Schema.Attribute.Integer;
+    seo_description: Schema.Attribute.Text;
+    seo_image: Schema.Attribute.Media;
+    seo_title: Schema.Attribute.String;
+    slug: Schema.Attribute.UID<'title'> & Schema.Attribute.Required;
+    source_url: Schema.Attribute.String;
+    status: Schema.Attribute.Enumeration<['draft', 'review', 'published']> &
+      Schema.Attribute.DefaultTo<'draft'>;
+    tags: Schema.Attribute.Relation<'manyToMany', 'api::tagtest.tagtest'>;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    view_count: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
   };
 }
 
@@ -563,6 +621,48 @@ export interface ApiCategoryCategory extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiCategorytestCategorytest
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'categorytests';
+  info: {
+    description: '';
+    displayName: 'Category Test';
+    pluralName: 'categorytests';
+    singularName: 'categorytest';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    articles_test: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::articletest.articletest'
+    >;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    description: Schema.Attribute.Text;
+    icon: Schema.Attribute.Media<'images'>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    locale_site: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::locale-site.locale-site'
+    >;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::categorytest.categorytest'
+    > &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String & Schema.Attribute.Required;
+    order: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
+    publishedAt: Schema.Attribute.DateTime;
+    slug: Schema.Attribute.UID<'name'> & Schema.Attribute.Required;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiGlobalGlobal extends Struct.SingleTypeSchema {
   collectionName: 'globals';
   info: {
@@ -589,6 +689,172 @@ export interface ApiGlobalGlobal extends Struct.SingleTypeSchema {
     publishedAt: Schema.Attribute.DateTime;
     siteDescription: Schema.Attribute.Text & Schema.Attribute.Required;
     siteName: Schema.Attribute.String & Schema.Attribute.Required;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiLocaleSiteLocaleSite extends Struct.CollectionTypeSchema {
+  collectionName: 'locale_sites';
+  info: {
+    description: 'The master table that defines every available slug for locale-specific sites';
+    displayName: 'Locale Site - Slug Registry';
+    pluralName: 'locale-sites';
+    singularName: 'locale-site';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    articles: Schema.Attribute.Relation<'manyToMany', 'api::article.article'>;
+    articles_test: Schema.Attribute.Relation<
+      'manyToMany',
+      'api::articletest.articletest'
+    >;
+    categories_test: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::categorytest.categorytest'
+    >;
+    country: Schema.Attribute.Enumeration<
+      [
+        'US',
+        'GB',
+        'IN',
+        'CA',
+        'AU',
+        'DE',
+        'FR',
+        'ES',
+        'IT',
+        'PT',
+        'RU',
+        'CN',
+        'JP',
+        'KR',
+        'SA',
+      ]
+    > &
+      Schema.Attribute.Required;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    icon: Schema.Attribute.Media<'images'>;
+    is_active: Schema.Attribute.Boolean &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<true>;
+    is_default: Schema.Attribute.Boolean &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<false>;
+    label: Schema.Attribute.String & Schema.Attribute.Required;
+    language: Schema.Attribute.Enumeration<
+      [
+        'en',
+        'es',
+        'fr',
+        'de',
+        'it',
+        'pt',
+        'ru',
+        'zh',
+        'ja',
+        'ko',
+        'ar',
+        'hi',
+        'bn',
+      ]
+    > &
+      Schema.Attribute.Required;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::locale-site.locale-site'
+    > &
+      Schema.Attribute.Private;
+    nav_logo: Schema.Attribute.Media<'images'>;
+    publishedAt: Schema.Attribute.DateTime;
+    site_config_test: Schema.Attribute.Relation<
+      'oneToOne',
+      'api::siteconfigtest.siteconfigtest'
+    >;
+    site_domain: Schema.Attribute.String;
+    slug: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiSiteconfigtestSiteconfigtest
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'siteconfigtests';
+  info: {
+    description: '';
+    displayName: 'Site Config Test';
+    pluralName: 'siteconfigtests';
+    singularName: 'siteconfigtest';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    footer_links: Schema.Attribute.JSON;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    locale_site: Schema.Attribute.Relation<
+      'oneToOne',
+      'api::locale-site.locale-site'
+    >;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::siteconfigtest.siteconfigtest'
+    > &
+      Schema.Attribute.Private;
+    meta_description: Schema.Attribute.Text;
+    meta_title: Schema.Attribute.String;
+    nav_links: Schema.Attribute.JSON;
+    primary_color: Schema.Attribute.String;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiTagtestTagtest extends Struct.CollectionTypeSchema {
+  collectionName: 'tagtests';
+  info: {
+    description: '';
+    displayName: 'Tag Test';
+    pluralName: 'tagtests';
+    singularName: 'tagtest';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    articles_test: Schema.Attribute.Relation<
+      'manyToMany',
+      'api::articletest.articletest'
+    >;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::tagtest.tagtest'
+    > &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
+    publishedAt: Schema.Attribute.DateTime;
+    slug: Schema.Attribute.UID<'name'> & Schema.Attribute.Required;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -1108,9 +1374,14 @@ declare module '@strapi/strapi' {
       'admin::user': AdminUser;
       'api::about.about': ApiAboutAbout;
       'api::article.article': ApiArticleArticle;
+      'api::articletest.articletest': ApiArticletestArticletest;
       'api::author.author': ApiAuthorAuthor;
       'api::category.category': ApiCategoryCategory;
+      'api::categorytest.categorytest': ApiCategorytestCategorytest;
       'api::global.global': ApiGlobalGlobal;
+      'api::locale-site.locale-site': ApiLocaleSiteLocaleSite;
+      'api::siteconfigtest.siteconfigtest': ApiSiteconfigtestSiteconfigtest;
+      'api::tagtest.tagtest': ApiTagtestTagtest;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
       'plugin::i18n.locale': PluginI18NLocale;
